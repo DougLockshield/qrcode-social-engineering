@@ -1,5 +1,5 @@
 
-# QR Code Malicioso – Demonstração Educacional
+# QR Code Social Engineering
 
 Este projeto demonstra como um atacante pode **coletar dados de um dispositivo móvel** e até **obter acesso remoto via shell reversa** com a simples interação da vítima com um QR Code — **sem root, sem app suspeito**.
 
